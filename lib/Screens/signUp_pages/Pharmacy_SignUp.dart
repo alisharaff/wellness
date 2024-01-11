@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import '../LogIn/logIn.dart';
 
@@ -7,23 +9,23 @@ class Pharmacy_SignUp extends StatefulWidget {
   const Pharmacy_SignUp(String s, {Key? key}) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _Pharmacy_SignUpState createState() => _Pharmacy_SignUpState();
 }
 
+// ignore: camel_case_types
 class _Pharmacy_SignUpState extends State<Pharmacy_SignUp> {
-  @override
-  void initState() {
-    // get data from database   use var data
-
-    super.initState();
-  }
-
   bool hidePassword = true;
   bool hidePasswordCon = true;
 
+  TextEditingController pharmacyNameController = TextEditingController();
+  TextEditingController pharmacyIDController = TextEditingController();
   TextEditingController mailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  // TextEditingController conPasswordController = TextEditingController();
+  TextEditingController confirmPasswordController = TextEditingController();
+  TextEditingController phoneNumberController = TextEditingController();
+
+  FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -81,7 +83,7 @@ class _Pharmacy_SignUpState extends State<Pharmacy_SignUp> {
             ),
             Expanded(
               child: TextField(
-                // autofocus: true,
+                controller: pharmacyNameController,
                 keyboardType: TextInputType.text,
                 decoration: InputDecoration(
                   labelText: "Pharmacy Name",
@@ -100,11 +102,9 @@ class _Pharmacy_SignUpState extends State<Pharmacy_SignUp> {
               height: 10,
             ),
             TextField(
-              // autofocus: true,
-              controller: passwordController,
+              controller: pharmacyIDController,
               obscureText: hidePasswordCon,
               keyboardType: TextInputType.number,
-              // obscureText: true,
               decoration: InputDecoration(
                 suffixIcon: IconButton(
                   icon: const Icon(Icons.add_card),
@@ -124,8 +124,8 @@ class _Pharmacy_SignUpState extends State<Pharmacy_SignUp> {
               height: 10,
             ),
             TextField(
-              // autofocus: true,
               keyboardType: TextInputType.emailAddress,
+              controller: mailController,
               decoration: InputDecoration(
                 suffixIcon: const Icon(Icons.mail),
                 suffixIconColor: Theme.of(context).colorScheme.onPrimary,
@@ -144,11 +144,9 @@ class _Pharmacy_SignUpState extends State<Pharmacy_SignUp> {
               height: 10,
             ),
             TextField(
-              // autofocus: true,
               controller: passwordController,
               obscureText: hidePassword,
               keyboardType: TextInputType.visiblePassword,
-              // obscureText: true,
               decoration: InputDecoration(
                 suffixIcon: IconButton(
                   icon: Icon(
@@ -173,11 +171,9 @@ class _Pharmacy_SignUpState extends State<Pharmacy_SignUp> {
               height: 10,
             ),
             TextField(
-              // autofocus: true,
-              controller: passwordController,
+              controller: confirmPasswordController,
               obscureText: hidePasswordCon,
               keyboardType: TextInputType.visiblePassword,
-              // obscureText: true,
               decoration: InputDecoration(
                 suffixIcon: IconButton(
                   icon: Icon(hidePasswordCon
@@ -203,6 +199,7 @@ class _Pharmacy_SignUpState extends State<Pharmacy_SignUp> {
               height: 10,
             ),
             IntlPhoneField(
+              controller: phoneNumberController,
               decoration: InputDecoration(
                 labelText: "Phone Number",
                 labelStyle: TextStyle(
@@ -252,7 +249,9 @@ class _Pharmacy_SignUpState extends State<Pharmacy_SignUp> {
                     ),
                     textAlign: TextAlign.center,
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    _registerAndSaveData();
+                  },
                 ),
               ),
             ),
@@ -281,5 +280,32 @@ class _Pharmacy_SignUpState extends State<Pharmacy_SignUp> {
         ),
       ),
     );
+  }
+
+  Future<void> _registerAndSaveData() async {
+    try {
+      // Register user with email and password
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: mailController.text,
+        password: passwordController.text,
+      );
+
+      // Save additional user information to Firestore
+      await _firestore
+          .collection('pharmacies')
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .set({
+        'pharmacyName': pharmacyNameController.text,
+        'pharmacyID': pharmacyIDController.text,
+        'email': mailController.text,
+        'phoneNumber': phoneNumberController.text,
+        'role': 3
+      });
+
+      print("Registration successful!");
+    } catch (e) {
+      // Handle registration errors
+      print("Registration error: $e");
+    }
   }
 }
