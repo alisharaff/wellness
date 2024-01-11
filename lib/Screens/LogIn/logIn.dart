@@ -1,7 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../role/role_ui.dart';
 import '../signUp_pages/doctor_Signup.dart';
-import '../signUp_pages/patient_ signUp.dart';
 import 'reset-password.page.dart';
 
 class LoginPage extends StatefulWidget {
@@ -17,6 +19,8 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
   Future<void> _signInWithEmailAndPassword() async {
     try {
       final UserCredential userCredential =
@@ -26,6 +30,13 @@ class _LoginPageState extends State<LoginPage> {
       );
 
       // Handle successful login here, you can navigate to another page or perform any other action.
+      DocumentSnapshot<Map<String, dynamic>?> doctorSnapshot = await _firestore
+          .collection('doctors')
+          .doc(userCredential.user!.uid)
+          .get();
+
+      // Save data in shared preferences
+      _saveDataInSharedPreferences(doctorSnapshot.data());
 
       print(
           'Logged in user: ${userCredential.user!.uid}'); // Show a snackbar for successful login
@@ -34,10 +45,23 @@ class _LoginPageState extends State<LoginPage> {
       // Handle login errors
       print('Error during login: $e');
       // Show a snackbar for login failure
+      // Fetch additional data from Firestore
+
       _showSnackbar("Login failed. Please check your credentials.", Colors.red);
     }
   }
- void _showSnackbar(String message, Color color) {
+
+  Future<void> _saveDataInSharedPreferences(
+      Map<String, dynamic>? userData) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('firstName', userData?['firstName']);
+    prefs.setString('lastName', userData?['lastName']);
+    prefs.setString('doctorId', userData?['doctorId']);
+    prefs.setString('specialty', userData?['specialty']);
+    prefs.setString('phoneNumber', userData?['phoneNumber']);
+  }
+
+  void _showSnackbar(String message, Color color) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(message),
@@ -46,7 +70,7 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
- 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -147,6 +171,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
               child: SizedBox.expand(
                 child: ElevatedButton(
+                  onPressed: _signInWithEmailAndPassword,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
@@ -163,23 +188,20 @@ class _LoginPageState extends State<LoginPage> {
                         height: 28,
                         width: 12,
                       ),
-                      Container(
-                        child: SizedBox(
-                          child: Image.asset("lib/assets/logo.png"),
-                          height: 28,
-                          width: 28,
-                        ),
+                      SizedBox(
+                        child: Image.asset("lib/assets/logo.png"),
+                        height: 28,
+                        width: 28,
                       )
                     ],
                   ),
-                  onPressed: _signInWithEmailAndPassword,
                 ),
               ),
             ),
             const SizedBox(
               height: 10,
             ),
-            Container(
+            SizedBox(
               height: 40,
               child: TextButton(
                 child: const Text(
@@ -191,25 +213,7 @@ class _LoginPageState extends State<LoginPage> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const SignupPage('SignupPage'),
-                    ),
-                  );
-                },
-              ),
-            ),
-            Container(
-              height: 40,
-              child: TextButton(
-                child: const Text(
-                  "Doctor Sign-Up",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 18),
-                ),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const DoctorSignup('SignupPage'),
+                      builder: (context) => const ChooseRoleScreen(),
                     ),
                   );
                 },

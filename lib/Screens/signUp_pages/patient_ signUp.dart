@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 
+import '../LogIn/logIn.dart';
+
 class SignupPage extends StatefulWidget {
   const SignupPage(String s, {Key? key}) : super(key: key);
 
@@ -279,18 +281,25 @@ class _SignupPageState extends State<SignupPage> {
                 ),
               ),
             ),
-            const SizedBox(
-              height: 10,
-            ),
-            Container(
-              height: 40,
-              alignment: Alignment.center,
-              child: TextButton(
-                child: const Text(
-                  "Cancel",
-                  textAlign: TextAlign.center,
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: SizedBox(
+                height: 35,
+                child: TextButton(
+                  child: const Text(
+                    "Login",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 18),
+                  ),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const LoginPage(''),
+                      ),
+                    );
+                  },
                 ),
-                onPressed: () => Navigator.pop(context, false),
               ),
             ),
           ],

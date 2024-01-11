@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:wellness/navPages/HomePage.dart';
 import 'package:wellness/theme/light_color.dart';
 import 'package:wellness/theme/text_styles.dart';
 import 'package:wellness/theme/extention.dart';
 
-import 'LogIn/logIn.dart';
+import 'Screens/role/role_ui.dart';
 
 class SplashPage extends StatefulWidget {
-  SplashPage(String s, {key}) : super(key: key);
+  // ignore: use_super_parameters
+  const SplashPage(String s, {key}) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _SplashPageState createState() => _SplashPageState();
 }
 
@@ -20,7 +21,7 @@ class _SplashPageState extends State<SplashPage> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => const LoginPage(""),
+          builder: (context) => const ChooseRoleScreen(),
         ),
       );
     });
