@@ -16,7 +16,7 @@ class _LoginPageState extends State<LoginPage> {
   bool hidePassword = true;
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   Future<void> _signInWithEmailAndPassword() async {
     try {
       final UserCredential userCredential =
@@ -27,16 +27,30 @@ class _LoginPageState extends State<LoginPage> {
 
       // Handle successful login here, you can navigate to another page or perform any other action.
 
-      print('Logged in user: ${userCredential.user!.uid}');
+      print(
+          'Logged in user: ${userCredential.user!.uid}'); // Show a snackbar for successful login
+      _showSnackbar("Login Successful", Colors.green);
     } catch (e) {
       // Handle login errors
       print('Error during login: $e');
+      // Show a snackbar for login failure
+      _showSnackbar("Login failed. Please check your credentials.", Colors.red);
     }
   }
-
+ void _showSnackbar(String message, Color color) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        backgroundColor: color,
+        duration: const Duration(seconds: 2),
+      ),
+    );
+  }
+ 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       body: Container(
         padding: const EdgeInsets.only(top: 20, left: 40, right: 40),
         color: Colors.white,
