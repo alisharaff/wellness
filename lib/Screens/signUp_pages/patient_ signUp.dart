@@ -1,29 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import '../LogIn/logIn.dart';
 
 class SignupPage extends StatefulWidget {
-  const SignupPage(String s, {Key? key}) : super(key: key);
+  const SignupPage(String s, {super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _SignupPageState createState() => _SignupPageState();
 }
 
 class _SignupPageState extends State<SignupPage> {
-  @override
-  void initState() {
-    // get data from database   use var data
-
-    super.initState();
-  }
-
   bool hidePassword = true;
   bool hidePasswordCon = true;
 
+  TextEditingController firstNameController = TextEditingController();
+  TextEditingController lastNameController = TextEditingController();
+  TextEditingController idNumberController = TextEditingController();
   TextEditingController mailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  // TextEditingController conPasswordController = TextEditingController();
+  TextEditingController confirmPasswordController = TextEditingController();
+  TextEditingController phoneNumberController = TextEditingController();
+
+  FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -84,7 +86,7 @@ class _SignupPageState extends State<SignupPage> {
               children: [
                 Expanded(
                   child: TextField(
-                    // autofocus: true,
+                    controller: firstNameController,
                     keyboardType: TextInputType.text,
                     decoration: InputDecoration(
                       labelText: "First Name",
@@ -99,14 +101,12 @@ class _SignupPageState extends State<SignupPage> {
                     ),
                   ),
                 ),
-                const SizedBox(width: 10), // Add space between text fields
+                const SizedBox(width: 10),
                 Expanded(
                   child: TextField(
-                    // autofocus: true,
+                    controller: lastNameController,
                     keyboardType: TextInputType.text,
                     decoration: InputDecoration(
-                      // suffixIcon: Icon(Icons.account_circle),
-                      // suffixIconColor:Theme.of(context).colorScheme.onPrimary,
                       labelText: "Last Name",
                       labelStyle: TextStyle(
                         color: Theme.of(context).colorScheme.onPrimary,
@@ -125,11 +125,8 @@ class _SignupPageState extends State<SignupPage> {
               height: 10,
             ),
             TextField(
-              // autofocus: true,
-              controller: passwordController,
-              obscureText: hidePasswordCon,
+              controller: idNumberController,
               keyboardType: TextInputType.number,
-              // obscureText: true,
               decoration: InputDecoration(
                 suffixIcon: IconButton(
                   icon: const Icon(Icons.add_card),
@@ -149,7 +146,7 @@ class _SignupPageState extends State<SignupPage> {
               height: 10,
             ),
             TextField(
-              // autofocus: true,
+              controller: mailController,
               keyboardType: TextInputType.emailAddress,
               decoration: InputDecoration(
                 suffixIcon: const Icon(Icons.mail),
@@ -169,11 +166,9 @@ class _SignupPageState extends State<SignupPage> {
               height: 10,
             ),
             TextField(
-              // autofocus: true,
               controller: passwordController,
               obscureText: hidePassword,
               keyboardType: TextInputType.visiblePassword,
-              // obscureText: true,
               decoration: InputDecoration(
                 suffixIcon: IconButton(
                   icon: Icon(
@@ -198,11 +193,9 @@ class _SignupPageState extends State<SignupPage> {
               height: 10,
             ),
             TextField(
-              // autofocus: true,
-              controller: passwordController,
+              controller: confirmPasswordController,
               obscureText: hidePasswordCon,
               keyboardType: TextInputType.visiblePassword,
-              // obscureText: true,
               decoration: InputDecoration(
                 suffixIcon: IconButton(
                   icon: Icon(hidePasswordCon
@@ -228,6 +221,7 @@ class _SignupPageState extends State<SignupPage> {
               height: 10,
             ),
             IntlPhoneField(
+              controller: phoneNumberController,
               decoration: InputDecoration(
                 labelText: "Phone Number",
                 labelStyle: TextStyle(
@@ -277,7 +271,10 @@ class _SignupPageState extends State<SignupPage> {
                     ),
                     textAlign: TextAlign.center,
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    // Call the method to register and save data
+                    _registerAndSaveData();
+                  },
                 ),
               ),
             ),
@@ -306,5 +303,33 @@ class _SignupPageState extends State<SignupPage> {
         ),
       ),
     );
+  }
+
+  Future<void> _registerAndSaveData() async {
+    try {
+      // Register user with email and password
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: mailController.text,
+        password: passwordController.text,
+      );
+
+      // Save additional user information to Firestore
+      await _firestore
+          .collection('patients')
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .set({
+        'firstName': firstNameController.text,
+        'lastName': lastNameController.text,
+        'idNumber': idNumberController.text,
+        'email': mailController.text,
+        'phoneNumber': phoneNumberController.text,
+        'role': 1 // Patient role
+      });
+
+      print("Registration successful!");
+    } catch (e) {
+      // Handle registration errors
+      print("Registration error: $e");
+    }
   }
 }
