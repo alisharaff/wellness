@@ -2,12 +2,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../../navPages/HomePage.dart';
 import '../role/role_ui.dart';
-import '../signUp_pages/doctor_Signup.dart';
 import 'reset-password.page.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage(String s, {Key? key}) : super(key: key);
+  final int role;
+  const LoginPage({Key? key, required this.role}) : super(key: key);
 
   @override
   _LoginPageState createState() => _LoginPageState();
@@ -29,23 +30,43 @@ class _LoginPageState extends State<LoginPage> {
         password: passwordController.text,
       );
 
-      // Handle successful login here, you can navigate to another page or perform any other action.
-      DocumentSnapshot<Map<String, dynamic>?> doctorSnapshot = await _firestore
-          .collection('doctors')
-          .doc(userCredential.user!.uid)
-          .get();
+      if (widget.role == 1) {
+        DocumentSnapshot<Map<String, dynamic>?> doctorSnapshot =
+            await _firestore
+                .collection('patients')
+                .doc(userCredential.user!.uid)
+                .get();
+        print(doctorSnapshot.data());
+        _saveDataInSharedPreferences(doctorSnapshot.data());
+      } else if (widget.role == 2) {
+        DocumentSnapshot<Map<String, dynamic>?> doctorSnapshot =
+            await _firestore
+                .collection('doctors')
+                .doc(userCredential.user!.uid)
+                .get();
+        print(doctorSnapshot.data());
+        _saveDataInSharedPreferences(doctorSnapshot.data());
+      } else {
+        DocumentSnapshot<Map<String, dynamic>?> doctorSnapshot =
+            await _firestore
+                .collection('pharmacies')
+                .doc(userCredential.user!.uid)
+                .get();
+        print(doctorSnapshot.data());
+        _saveDataInSharedPreferences(doctorSnapshot.data());
+      }
+      print('Logged in user: ${userCredential.user!.uid}');
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => HomePage(),
+        ),
+      );
 
-      // Save data in shared preferences
-      _saveDataInSharedPreferences(doctorSnapshot.data());
-
-      print(
-          'Logged in user: ${userCredential.user!.uid}'); // Show a snackbar for successful login
       _showSnackbar("Login Successful", Colors.green);
     } catch (e) {
       // Handle login errors
       print('Error during login: $e');
-      // Show a snackbar for login failure
-      // Fetch additional data from Firestore
 
       _showSnackbar("Login failed. Please check your credentials.", Colors.red);
     }
@@ -53,12 +74,25 @@ class _LoginPageState extends State<LoginPage> {
 
   Future<void> _saveDataInSharedPreferences(
       Map<String, dynamic>? userData) async {
+    print("============================");
+    print(userData);
+    print(userData?["role"]);
+    print("============================");
+
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('firstName', userData?['firstName']);
-    prefs.setString('lastName', userData?['lastName']);
-    prefs.setString('doctorId', userData?['doctorId']);
-    prefs.setString('specialty', userData?['specialty']);
-    prefs.setString('phoneNumber', userData?['phoneNumber']);
+    prefs.setString('firstName', userData?['firstName'] ?? "");
+    prefs.setString('lastName', userData?['lastName'] ?? "");
+    prefs.setString('doctorId', userData?['doctorId'] ?? "");
+    prefs.setString('specialty', userData?['specialty'] ?? "");
+    prefs.setString('phoneNumber', userData?['phoneNumber'] ?? "");
+
+    // Adding a null check before storing the 'role' value
+    if (userData?["role"] != null) {
+      prefs.setString('role', userData!["role"].toString());
+      print(prefs.getString('role'));
+    } else {
+      print("Role is null");
+    }
   }
 
   void _showSnackbar(String message, Color color) {

@@ -292,7 +292,7 @@ class _SignupPageState extends State<SignupPage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const LoginPage(''),
+                        builder: (context) => const LoginPage(role: 1),
                       ),
                     );
                   },
@@ -320,12 +320,19 @@ class _SignupPageState extends State<SignupPage> {
           .set({
         'firstName': firstNameController.text,
         'lastName': lastNameController.text,
-        'idNumber': idNumberController.text,
+        'Id': idNumberController.text,
         'email': mailController.text,
         'phoneNumber': phoneNumberController.text,
         'role': 1 // Patient role
       });
-
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const LoginPage(
+            role: 1,
+          ),
+        ),
+      );
       print("Registration successful!");
     } catch (e) {
       // Handle registration errors

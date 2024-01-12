@@ -15,7 +15,9 @@ class Routes {
     return <String, WidgetBuilder>{
       '/': (context) => SplashPage("SplashPage"),
       '/HomePage': (_) => HomePage(),
-      'LoginPage': (_) => LoginPage('LoginPage'),
+      'LoginPage': (_) => LoginPage(
+            role: 1,
+          ),
       'SignupPage': (_) => SignupPage('SignupPage'),
       'doctor_Signup': (_) => DoctorSignup('doctor_Signup'),
       'Pharmacy_SignUp': (_) => Pharmacy_SignUp('Pharmacy_SignUp'),

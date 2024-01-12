@@ -8,6 +8,8 @@ import 'package:wellness/theme/light_color.dart';
 import 'package:wellness/theme/text_styles.dart';
 import 'package:wellness/theme/theme.dart';
 
+import '../helper/shared_pref.dart';
+
 class HomePage extends StatefulWidget {
   HomePage({key}) : super(key: key);
 
@@ -17,10 +19,28 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   late List<DoctorModel> doctorDataList;
+  Map<String, dynamic>? userData;
+  Future<void> loadUserData() async {
+    userData = await SharedPreferencesHelper.getUserData();
+
+    if (userData != null) {
+      // Use userData as needed
+      print("User Role: ${userData!['role']}");
+      print("User Name: ${userData!['firstName']} ${userData!['lastName']}");
+    } else {
+      print("User data not found in SharedPreferences");
+    }
+
+    if (mounted) {
+      setState(() {});
+    }
+  }
+
   @override
   void initState() {
     doctorDataList = doctorMapList.map((x) => DoctorModel.fromJson(x)).toList();
     super.initState();
+    loadUserData();
   }
 
   Widget _appBar() {
@@ -54,11 +74,19 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _header() {
+    String userName = "User"; // Default value
+
+    if (userData != null) {
+      String firstName = userData!['firstName'] ?? "";
+      String lastName = userData!['lastName'] ?? "";
+      userName = "$firstName $lastName";
+    }
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Text("Hello,", style: TextStyles.title.subTitleColor),
-        Text("Rasha Abu Samhan", style: TextStyles.h1Style),
+        Text(userName, style: TextStyles.h1Style),
       ],
     ).p16;
   }
@@ -81,7 +109,8 @@ class _HomePageState extends State<HomePage> {
       ),
       child: TextField(
         decoration: InputDecoration(
-          contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+          contentPadding:
+              const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
           border: InputBorder.none,
           hintText: "Search",
           hintStyle: TextStyles.body.subTitleColor,
@@ -99,7 +128,8 @@ class _HomePageState extends State<HomePage> {
     return Column(
       children: <Widget>[
         Padding(
-          padding: const EdgeInsets.only(top: 8, right: 16, left: 16, bottom: 4),
+          padding:
+              const EdgeInsets.only(top: 8, right: 16, left: 16, bottom: 4),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
@@ -191,7 +221,8 @@ class _HomePageState extends State<HomePage> {
               ],
             ),
           ),
-        ).ripple(() {}, borderRadius: const BorderRadius.all(Radius.circular(20))),
+        ).ripple(() {},
+            borderRadius: const BorderRadius.all(Radius.circular(20))),
       ),
     );
   }
