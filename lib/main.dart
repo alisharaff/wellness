@@ -6,7 +6,6 @@ import 'package:wellness/theme/theme.dart';
 
 import 'firebase_options.dart';
 
-
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -17,14 +16,11 @@ Future<void> main() async {
 }
 
 class wellness extends StatelessWidget {
-  const wellness({Key? key}) : super(key: key);
+  const wellness({super.key});
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
     return MaterialApp(
-      
       title: 'Wellness Track App',
       theme: AppTheme.lightTheme,
       routes: Routes.getRoute(),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wellness/theme/extention.dart';
 
-import '../../theme/light_color.dart';
+import '../../../../theme/light_color.dart';
 
 class CategoryList extends StatelessWidget {
   @override

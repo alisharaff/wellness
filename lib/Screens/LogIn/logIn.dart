@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../home/HomePage.dart';
+import '../home/patient/HomePage.dart';
 import '../role/role_ui.dart';
 import 'reset-password.page.dart';
 
@@ -21,7 +21,7 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController passwordController = TextEditingController();
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-
+  bool _loading = false;
   Future<void> _signInWithEmailAndPassword() async {
     try {
       final UserCredential userCredential =
@@ -56,19 +56,25 @@ class _LoginPageState extends State<LoginPage> {
         _saveDataInSharedPreferences(doctorSnapshot.data());
       }
       print('Logged in user: ${userCredential.user!.uid}');
+      setState(() {
+        _loading = true; // Set loading to true
+      });
       Navigator.push(
         context,
         MaterialPageRoute(
           builder: (context) => HomePage(),
         ),
       );
-
       _showSnackbar("Login Successful", Colors.green);
     } catch (e) {
       // Handle login errors
       print('Error during login: $e');
 
       _showSnackbar("Login failed. Please check your credentials.", Colors.red);
+    } finally {
+      setState(() {
+        _loading = false;
+      });
     }
   }
 
@@ -82,7 +88,7 @@ class _LoginPageState extends State<LoginPage> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('firstName', userData?['firstName'] ?? "");
     prefs.setString('lastName', userData?['lastName'] ?? "");
-    prefs.setString('doctorId', userData?['doctorId'] ?? "");
+    prefs.setString('Id', userData?['Id'] ?? "");
     prefs.setString('specialty', userData?['specialty'] ?? "");
     prefs.setString('phoneNumber', userData?['phoneNumber'] ?? "");
 
@@ -203,34 +209,36 @@ class _LoginPageState extends State<LoginPage> {
                   Radius.circular(5),
                 ),
               ),
-              child: SizedBox.expand(
-                child: ElevatedButton(
-                  onPressed: _signInWithEmailAndPassword,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      const Text(
-                        "Login",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                          fontSize: 20,
+              child: _loading
+                  ? CircularProgressIndicator() // Show loading indicator
+                  : SizedBox.expand(
+                      child: ElevatedButton(
+                        onPressed: _signInWithEmailAndPassword,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            const Text(
+                              "Login",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                                fontSize: 20,
+                              ),
+                              textAlign: TextAlign.left,
+                            ),
+                            const SizedBox(
+                              height: 28,
+                              width: 12,
+                            ),
+                            SizedBox(
+                              child: Image.asset("lib/assets/logo.png"),
+                              height: 28,
+                              width: 28,
+                            )
+                          ],
                         ),
-                        textAlign: TextAlign.left,
                       ),
-                      const SizedBox(
-                        height: 28,
-                        width: 12,
-                      ),
-                      SizedBox(
-                        child: Image.asset("lib/assets/logo.png"),
-                        height: 28,
-                        width: 28,
-                      )
-                    ],
-                  ),
-                ),
-              ),
+                    ),
             ),
             const SizedBox(
               height: 10,

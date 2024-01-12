@@ -6,7 +6,7 @@ import 'package:wellness/theme/light_color.dart';
 import 'package:wellness/theme/theme.dart';
 
 class ProgressWidget extends StatefulWidget {
-  ProgressWidget(
+  const ProgressWidget(
       {key,
       required this.value,
       this.totalValue = 100,
@@ -128,7 +128,7 @@ class LinearPointCurve extends Curve {
   final double pIn;
   final double pOut;
 
-  LinearPointCurve(this.pIn, this.pOut);
+  const LinearPointCurve(this.pIn, this.pOut);
 
   @override
   double transform(double x) {
