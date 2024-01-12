@@ -190,9 +190,10 @@ class _DetailPageState extends State<DetailPage> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) =>
-                                        const CreatNewDatePage(
-                                            'CreatNewDatePage'),
+                                    builder: (context) => CreatNewDatePage(
+                                      'CreatNewDatePage',
+                                      model: widget.model,
+                                    ),
                                   ),
                                 );
                               },

@@ -1,16 +1,25 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:wellness/model/dactor_model.dart';
+
+import '../Screens/home/patient/HomePage.dart';
+import '../helper/shared_pref.dart';
+import '../helper/show_snackerbar.dart';
 
 class CreatNewDatePage extends StatefulWidget {
-  const CreatNewDatePage(String s, {Key? key}) : super(key: key);
-
+  const CreatNewDatePage(String s, {Key? key, required this.model})
+      : super(key: key);
+  final DoctorModelHome model;
   @override
   State<CreatNewDatePage> createState() => _CreatNewDatePageState();
 }
 
 class _CreatNewDatePageState extends State<CreatNewDatePage> {
   //declaration
+  Map<String, dynamic>? userData;
+  int? _selectedTime;
   CalendarFormat _format = CalendarFormat.month;
   DateTime _focusDay = DateTime.now();
   DateTime _currentDay = DateTime.now();
@@ -18,17 +27,84 @@ class _CreatNewDatePageState extends State<CreatNewDatePage> {
   bool _isWeekend = false;
   bool _dateSelected = false;
   bool _timeSelected = false;
-  String? token; //get token for insert booking date and time into database
+  String? token;
 
-  Future<void> getToken() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    token = prefs.getString('token') ?? '';
+  Future<void> loadUserData() async {
+    userData = await SharedPreferencesHelper.getUserData();
+
+    if (userData != null) {
+      // Use userData as needed
+      print("User Role: ${userData!['role']}");
+      print("User Name: ${userData!['firstName']} ${userData!['lastName']}");
+      print(userData!['Id']);
+    } else {
+      print("User data not found in SharedPreferences");
+    }
+
+    if (mounted) {
+      setState(() {});
+    }
+  }
+
+  Future<void> _saveAppointment() async {
+    // Check if both date and time are selected
+    if (!_dateSelected || !_timeSelected) {
+      print("object");
+      return;
+    }
+
+    try {
+      // Create a reference to the appointments collection in Firestore
+      CollectionReference appointments =
+          FirebaseFirestore.instance.collection('appointments');
+
+      // Get the patient's user ID from SharedPreferences
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      String? patientUserId = prefs.getString('userId');
+
+      // Check if patientUserId is not null (it should have been set during patient login)
+      if (userData!['Id'] != null) {
+        // Create a new appointment document
+        int hour = 9 + (_currentIndex! ~/ 2);
+        int minutes = (_currentIndex! % 2) * 30;
+
+        await appointments.add({
+          'patientId': userData!['Id'],
+          'doctrId': widget.model.id,
+          'docterName': widget.model.name,
+          'docterType': widget.model.type,
+          'date': _currentDay,
+          'time':
+              '${hour.toString().padLeft(2, '0')}:${minutes.toString().padLeft(2, '0')} ${hour >= 12 ? "PM" : "AM"}',
+        });
+        showSnackbar(context, "Saving Appointment Successful", Colors.green);
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => HomePage(),
+          ),
+        );
+      } else {
+        print('Error: Patient user ID is null.');
+        showSnackbar(context,
+            "Saving Appointment failed. Please check your data.", Colors.red);
+      }
+    } catch (e) {
+      // Handle any errors that occur during Firestore operation
+
+      showSnackbar(context,
+          "Saving Appointment failed. Please check your data.", Colors.red);
+
+      print('Error saving appointment: $e');
+    }
   }
 
   @override
   void initState() {
-    getToken();
+    // getToken();
     super.initState();
+    print(widget.model.id);
+    loadUserData();
   }
 
   @override
@@ -146,22 +222,7 @@ class _CreatNewDatePageState extends State<CreatNewDatePage> {
               child: Button(
                 width: double.infinity,
                 title: 'Make Appointment',
-                onPressed: () async {
-                  //   //convert date/day/time into string first
-                  //   final getDate = DateConverted.getDate(_currentDay);
-                  //   final getDay = DateConverted.getDay(_currentDay.weekday);
-                  //   final getTime = DateConverted.getTime(_currentIndex!);
-                  //
-                  //   final booking = await DioProvider().bookAppointment(
-                  //       getDate, getDay, getTime, doctor['doctor_id'], token!);
-                  //
-                  //   //if booking return status code 200, then redirect to success booking page
-                  //
-                  //   if (booking == 200) {
-                  //     wellness.navigatorKey.currentState!
-                  //         .pushNamed('success_booking');
-                  //   }
-                },
+                onPressed: _saveAppointment,
                 disable: _timeSelected && _dateSelected ? false : true,
               ),
             ),

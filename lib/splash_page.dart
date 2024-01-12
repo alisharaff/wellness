@@ -21,9 +21,8 @@ class _SplashPageState extends State<SplashPage> {
     Future.delayed(const Duration(seconds: 2)).then((_) {
       Navigator.push(
         context,
-        MaterialPageRoute(
-          builder: (context) =>  HomePage(),
-        ),
+        MaterialPageRoute(builder: (context) => ChooseRoleScreen() //HomePage(),
+            ),
       );
     });
     super.initState();

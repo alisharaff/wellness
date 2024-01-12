@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:wellness/Screens/home/patient/appointment.dart';
 import 'package:wellness/Screens/home/patient/profile.dart';
 import 'package:wellness/model/dactor_model.dart';
 import 'package:wellness/model/data.dart';
@@ -35,10 +36,10 @@ class _HomePageState extends State<HomePage> {
       setState(() {
         doctorDataList = snapshot.docs
             .map((QueryDocumentSnapshot<Map<String, dynamic>> doc) {
-          // Convert each document to your DoctorModel
-
+          print('${doc['firstName'] + doc['lastName']}');
           return DoctorModelHome(
-            name: doc['firstName'] ?? " ",
+            id: doc['Id'] ?? " ",
+            name: '${doc['firstName'] + doc['lastName']}' ?? " ",
             type: doc['specialty'] ?? "",
           );
         }).toList();
@@ -233,9 +234,7 @@ class _HomePageState extends State<HomePage> {
             ],
           ),
 
-          const Center(
-            child: Text('book Screen'),
-          ),
+          AppointmentsScreen(paId : userData!['Id']),
           ProfileScreen()
         ],
       ),
@@ -264,6 +263,5 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       _selectedIndex = index;
     });
-    // You can add logic to navigate or perform actions based on the selected item.
   }
 }

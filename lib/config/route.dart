@@ -21,7 +21,7 @@ class Routes {
       'SignupPage': (_) => const SignupPage('SignupPage'),
       'doctor_Signup': (_) => const DoctorSignup('doctor_Signup'),
       'Pharmacy_SignUp': (_) => const Pharmacy_SignUp('Pharmacy_SignUp'),
-      'CreatNewDatePage': (_) => const CreatNewDatePage('CreatNewDatePage'),
+     // 'CreatNewDatePage': (_) => const CreatNewDatePage('CreatNewDatePage'),
     };
   }
 
