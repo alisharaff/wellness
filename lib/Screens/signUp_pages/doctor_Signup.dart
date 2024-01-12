@@ -47,16 +47,19 @@ class _DoctorSignupState extends State<DoctorSignup> {
       await _firestore.collection('doctors').doc(userCredential.user!.uid).set({
         'firstName': firstNameController.text,
         'lastName': lastNameController.text,
-        'doctorId': doctorIdController.text,
+        'Id': doctorIdController.text,
         'specialty': specialtyController.text,
         'phoneNumber': phoneNumberController.text,
         'role': 2 // Role Doctor
       });
-      print("okkkkkkkkkkkkkkkkk");
-      // Navigate to the next screen or perform other actions after registration
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const LoginPage(role: 2,),
+        ),
+      );
     } catch (e) {
       // Handle registration errors
-      print("onnnnnnnnnnnnnnnnnnnnnnnnnnnnkkkkkkkkkkk");
 
       print(e.toString());
     }
@@ -358,7 +361,7 @@ class _DoctorSignupState extends State<DoctorSignup> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const LoginPage(''),
+                        builder: (context) => const LoginPage(role: 2,),
                       ),
                     );
                   },

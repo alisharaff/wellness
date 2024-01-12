@@ -18,7 +18,8 @@ class _Pharmacy_SignUpState extends State<Pharmacy_SignUp> {
   bool hidePassword = true;
   bool hidePasswordCon = true;
 
-  TextEditingController pharmacyNameController = TextEditingController();
+  TextEditingController firstNameController = TextEditingController(); // Added
+  TextEditingController lastNameController = TextEditingController();
   TextEditingController pharmacyIDController = TextEditingController();
   TextEditingController mailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
@@ -81,22 +82,45 @@ class _Pharmacy_SignUpState extends State<Pharmacy_SignUp> {
             const SizedBox(
               height: 20,
             ),
-            Expanded(
-              child: TextField(
-                controller: pharmacyNameController,
-                keyboardType: TextInputType.text,
-                decoration: InputDecoration(
-                  labelText: "Pharmacy Name",
-                  labelStyle: TextStyle(
-                    color: Theme.of(context).colorScheme.onPrimary,
-                    fontWeight: FontWeight.w400,
-                    fontSize: 20,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Expanded(
+                  child: TextField(
+                    controller: firstNameController,
+                    keyboardType: TextInputType.text,
+                    decoration: InputDecoration(
+                      labelText: "First Name",
+                      labelStyle: TextStyle(
+                        color: Theme.of(context).colorScheme.onPrimary,
+                        fontWeight: FontWeight.w400,
+                        fontSize: 20,
+                      ),
+                    ),
+                    style: const TextStyle(
+                      fontSize: 20,
+                    ),
                   ),
                 ),
-                style: const TextStyle(
-                  fontSize: 20,
+                const SizedBox(width: 10), // Add space between text fields
+                Expanded(
+                  child: TextField(
+                    controller: lastNameController,
+                    keyboardType: TextInputType.text,
+                    decoration: InputDecoration(
+                      labelText: "Last Name",
+                      labelStyle: TextStyle(
+                        color: Theme.of(context).colorScheme.onPrimary,
+                        fontWeight: FontWeight.w400,
+                        fontSize: 20,
+                      ),
+                    ),
+                    style: const TextStyle(
+                      fontSize: 20,
+                    ),
+                  ),
                 ),
-              ),
+              ],
             ),
             const SizedBox(
               height: 10,
@@ -269,7 +293,9 @@ class _Pharmacy_SignUpState extends State<Pharmacy_SignUp> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const LoginPage(''),
+                        builder: (context) => const LoginPage(
+                          role: 3,
+                        ),
                       ),
                     );
                   },
@@ -295,14 +321,23 @@ class _Pharmacy_SignUpState extends State<Pharmacy_SignUp> {
           .collection('pharmacies')
           .doc(FirebaseAuth.instance.currentUser!.uid)
           .set({
-        'pharmacyName': pharmacyNameController.text,
-        'pharmacyID': pharmacyIDController.text,
+        'firstName': firstNameController.text,
+        'lastName': lastNameController.text,
+        'Id': pharmacyIDController.text,
         'email': mailController.text,
         'phoneNumber': phoneNumberController.text,
         'role': 3
       });
 
       print("Registration successful!");
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const LoginPage(
+            role: 3,
+          ),
+        ),
+      );
     } catch (e) {
       // Handle registration errors
       print("Registration error: $e");
