@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:wellness/Screens/LogIn/logIn.dart';
 import 'package:wellness/detail_page.dart';
 import 'package:wellness/navPages/CreatNewDatePage.dart';
-import 'package:wellness/navPages/HomePage.dart';
+import 'package:wellness/Screens/home/HomePage.dart';
 import 'package:wellness/Screens/signUp_pages/Pharmacy_SignUp.dart';
 import 'package:wellness/Screens/signUp_pages/doctor_Signup.dart';
 import 'package:wellness/splash_page.dart';
