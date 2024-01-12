@@ -3,6 +3,7 @@ import 'package:wellness/theme/light_color.dart';
 import 'package:wellness/theme/text_styles.dart';
 import 'package:wellness/theme/extention.dart';
 
+import 'Screens/home/patient/HomePage.dart';
 import 'Screens/role/role_ui.dart';
 
 class SplashPage extends StatefulWidget {
@@ -21,7 +22,7 @@ class _SplashPageState extends State<SplashPage> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => const ChooseRoleScreen(),
+          builder: (context) =>  HomePage(),
         ),
       );
     });
@@ -35,11 +36,11 @@ class _SplashPageState extends State<SplashPage> {
         children: <Widget>[
           Container(
             decoration: const BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage("lib/assets/doctor_face.jpg"),
-                fit: BoxFit.fill,
-              ),
-            ),
+                // image: DecorationImage(
+                //   image: AssetImage("lib/assets/doctor_face.jpg"),
+                //   fit: BoxFit.fill,
+                // ),
+                ),
           ),
           Positioned.fill(
             child: Opacity(
@@ -65,7 +66,7 @@ class _SplashPageState extends State<SplashPage> {
                 child: SizedBox(),
               ),
               Image.asset(
-                "lib/assets/heartbeat.png",
+                "lib/assets/logo.png",
                 color: Colors.white,
                 height: 100,
               ),

@@ -10,8 +10,6 @@ class patient_profile extends StatefulWidget {
 }
 
 class _patient_profileState extends State<patient_profile> {
-
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -34,18 +32,19 @@ class _patient_profileState extends State<patient_profile> {
                       image: DecorationImage(
                         fit: BoxFit.fitWidth,
                         image: Image.asset(
-                          'assets/images/page_bg_transparent@2x.png',
+                          'lib/assets/doctor_3.png',
                         ).image,
                       ),
                     ),
                     child: Padding(
-                      padding: const EdgeInsetsDirectional.fromSTEB(0, 70, 0, 0),
+                      padding:
+                          const EdgeInsetsDirectional.fromSTEB(0, 70, 0, 0),
                       child: Column(
                         mainAxisSize: MainAxisSize.max,
                         children: [
                           Padding(
-                            padding:
-                            const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 24),
+                            padding: const EdgeInsetsDirectional.fromSTEB(
+                                0, 0, 0, 24),
                             child: Row(
                               mainAxisSize: MainAxisSize.max,
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -53,7 +52,7 @@ class _patient_profileState extends State<patient_profile> {
                                 if (Theme.of(context).brightness ==
                                     Brightness.dark)
                                   Image.asset(
-                                    'assets/images/health-ai_logoVert.png',
+                                    'lib/assets/doctor_3.png',
                                     width: 200,
                                     height: 130,
                                     fit: BoxFit.fitHeight,
@@ -61,7 +60,7 @@ class _patient_profileState extends State<patient_profile> {
                                 if (!(Theme.of(context).brightness ==
                                     Brightness.dark))
                                   Image.asset(
-                                    'assets/images/logo_darkFull@2x.png',
+                                    'lib/assets/doctor_3.png',
                                     width: 200,
                                     height: 130,
                                     fit: BoxFit.fitHeight,
@@ -77,14 +76,11 @@ class _patient_profileState extends State<patient_profile> {
                                   child: TabBar(
                                     isScrollable: true,
                                     labelColor: Colors.red,
-                                    unselectedLabelColor:
-                                    Colors.red,
+                                    unselectedLabelColor: Colors.red,
                                     labelPadding:
-                                    EdgeInsetsDirectional.fromSTEB(
-                                        24, 0, 24, 0),
-
+                                        EdgeInsetsDirectional.fromSTEB(
+                                            24, 0, 24, 0),
                                     unselectedLabelStyle: TextStyle(),
-
                                     indicatorWeight: 3,
                                     tabs: [
                                       Tab(
@@ -100,141 +96,142 @@ class _patient_profileState extends State<patient_profile> {
                                   child: TabBarView(
                                     children: [
                                       Padding(
-                                        padding: const EdgeInsetsDirectional.fromSTEB(
-                                            24, 0, 24, 0),
+                                        padding: const EdgeInsetsDirectional
+                                            .fromSTEB(24, 0, 24, 0),
                                         child: SingleChildScrollView(
                                           child: Column(
                                             mainAxisSize: MainAxisSize.max,
                                             children: [
                                               Padding(
-                                                padding: const EdgeInsetsDirectional
-                                                    .fromSTEB(0, 20, 0, 0),
+                                                padding:
+                                                    const EdgeInsetsDirectional
+                                                        .fromSTEB(0, 20, 0, 0),
                                                 child: TextFormField(
-
                                                   obscureText: false,
                                                   decoration: InputDecoration(
                                                     labelText: 'Email Address',
-
                                                     hintText:
-                                                    'Enter your email...',
-
+                                                        'Enter your email...',
                                                     enabledBorder:
-                                                    OutlineInputBorder(
-                                                      borderSide: const BorderSide(
+                                                        OutlineInputBorder(
+                                                      borderSide:
+                                                          const BorderSide(
                                                         color:
-                                                        Color(0x00000000),
+                                                            Color(0x00000000),
                                                         width: 1,
                                                       ),
                                                       borderRadius:
-                                                      BorderRadius.circular(
-                                                          8),
+                                                          BorderRadius.circular(
+                                                              8),
                                                     ),
                                                     focusedBorder:
-                                                    OutlineInputBorder(
-                                                      borderSide: const BorderSide(
+                                                        OutlineInputBorder(
+                                                      borderSide:
+                                                          const BorderSide(
                                                         color:
-                                                        Color(0x00000000),
+                                                            Color(0x00000000),
                                                         width: 1,
                                                       ),
                                                       borderRadius:
-                                                      BorderRadius.circular(
-                                                          8),
+                                                          BorderRadius.circular(
+                                                              8),
                                                     ),
                                                     errorBorder:
-                                                    OutlineInputBorder(
-                                                      borderSide: const BorderSide(
+                                                        OutlineInputBorder(
+                                                      borderSide:
+                                                          const BorderSide(
                                                         color:
-                                                        Color(0x00000000),
+                                                            Color(0x00000000),
                                                         width: 1,
                                                       ),
                                                       borderRadius:
-                                                      BorderRadius.circular(
-                                                          8),
+                                                          BorderRadius.circular(
+                                                              8),
                                                     ),
                                                     focusedErrorBorder:
-                                                    OutlineInputBorder(
-                                                      borderSide: const BorderSide(
+                                                        OutlineInputBorder(
+                                                      borderSide:
+                                                          const BorderSide(
                                                         color:
-                                                        Color(0x00000000),
+                                                            Color(0x00000000),
                                                         width: 1,
                                                       ),
                                                       borderRadius:
-                                                      BorderRadius.circular(
-                                                          8),
+                                                          BorderRadius.circular(
+                                                              8),
                                                     ),
                                                     filled: true,
-
                                                     contentPadding:
-                                                    const EdgeInsetsDirectional
-                                                        .fromSTEB(
-                                                        20, 24, 20, 24),
+                                                        const EdgeInsetsDirectional
+                                                            .fromSTEB(
+                                                            20, 24, 20, 24),
                                                   ),
-
                                                 ),
                                               ),
                                               Padding(
-                                                padding: const EdgeInsetsDirectional
-                                                    .fromSTEB(0, 12, 0, 0),
+                                                padding:
+                                                    const EdgeInsetsDirectional
+                                                        .fromSTEB(0, 12, 0, 0),
                                                 child: TextFormField(
-
                                                   decoration: InputDecoration(
                                                     labelText: 'Password',
-
                                                     hintText:
-                                                    'Enter your password...',
-
+                                                        'Enter your password...',
                                                     enabledBorder:
-                                                    OutlineInputBorder(
-                                                      borderSide: const BorderSide(
+                                                        OutlineInputBorder(
+                                                      borderSide:
+                                                          const BorderSide(
                                                         color:
-                                                        Color(0x00000000),
+                                                            Color(0x00000000),
                                                         width: 1,
                                                       ),
                                                       borderRadius:
-                                                      BorderRadius.circular(
-                                                          8),
+                                                          BorderRadius.circular(
+                                                              8),
                                                     ),
                                                     focusedBorder:
-                                                    OutlineInputBorder(
-                                                      borderSide: const BorderSide(
+                                                        OutlineInputBorder(
+                                                      borderSide:
+                                                          const BorderSide(
                                                         color:
-                                                        Color(0x00000000),
+                                                            Color(0x00000000),
                                                         width: 1,
                                                       ),
                                                       borderRadius:
-                                                      BorderRadius.circular(
-                                                          8),
+                                                          BorderRadius.circular(
+                                                              8),
                                                     ),
                                                     errorBorder:
-                                                    OutlineInputBorder(
-                                                      borderSide: const BorderSide(
+                                                        OutlineInputBorder(
+                                                      borderSide:
+                                                          const BorderSide(
                                                         color:
-                                                        Color(0x00000000),
+                                                            Color(0x00000000),
                                                         width: 1,
                                                       ),
                                                       borderRadius:
-                                                      BorderRadius.circular(
-                                                          8),
+                                                          BorderRadius.circular(
+                                                              8),
                                                     ),
                                                     focusedErrorBorder:
-                                                    OutlineInputBorder(
-                                                      borderSide: const BorderSide(
+                                                        OutlineInputBorder(
+                                                      borderSide:
+                                                          const BorderSide(
                                                         color:
-                                                        Color(0x00000000),
+                                                            Color(0x00000000),
                                                         width: 1,
                                                       ),
                                                       borderRadius:
-                                                      BorderRadius.circular(
-                                                          8),
+                                                          BorderRadius.circular(
+                                                              8),
                                                     ),
                                                     filled: true,
-
                                                     contentPadding:
-                                                    const EdgeInsetsDirectional
-                                                        .fromSTEB(
-                                                        20, 24, 20, 24),
+                                                        const EdgeInsetsDirectional
+                                                            .fromSTEB(
+                                                            20, 24, 20, 24),
                                                     suffixIcon: InkWell(
-                                                      onTap: () {} ,
+                                                      onTap: () {},
                                                       focusNode: FocusNode(
                                                           skipTraversal: true),
                                                       child: const Icon(
@@ -243,13 +240,11 @@ class _patient_profileState extends State<patient_profile> {
                                                       ),
                                                     ),
                                                   ),
-
                                                 ),
                                               ),
                                               const Padding(
                                                 padding: EdgeInsetsDirectional
                                                     .fromSTEB(0, 24, 0, 0),
-
                                               ),
                                               const Padding(
                                                 padding: EdgeInsetsDirectional
@@ -264,224 +259,227 @@ class _patient_profileState extends State<patient_profile> {
                                         ),
                                       ),
                                       Padding(
-                                        padding: const EdgeInsetsDirectional.fromSTEB(
-                                            24, 0, 24, 0),
+                                        padding: const EdgeInsetsDirectional
+                                            .fromSTEB(24, 0, 24, 0),
                                         child: SingleChildScrollView(
                                           child: Column(
                                             mainAxisSize: MainAxisSize.max,
                                             children: [
                                               Padding(
-                                                padding: const EdgeInsetsDirectional
-                                                    .fromSTEB(0, 20, 0, 0),
+                                                padding:
+                                                    const EdgeInsetsDirectional
+                                                        .fromSTEB(0, 20, 0, 0),
                                                 child: TextFormField(
-
                                                   obscureText: false,
                                                   decoration: InputDecoration(
                                                     labelText: 'Email Address',
-
                                                     hintText:
-                                                    'Enter your email...',
-
+                                                        'Enter your email...',
                                                     enabledBorder:
-                                                    OutlineInputBorder(
-                                                      borderSide: const BorderSide(
+                                                        OutlineInputBorder(
+                                                      borderSide:
+                                                          const BorderSide(
                                                         color:
-                                                        Color(0x00000000),
+                                                            Color(0x00000000),
                                                         width: 1,
                                                       ),
                                                       borderRadius:
-                                                      BorderRadius.circular(
-                                                          8),
+                                                          BorderRadius.circular(
+                                                              8),
                                                     ),
                                                     focusedBorder:
-                                                    OutlineInputBorder(
-                                                      borderSide: const BorderSide(
+                                                        OutlineInputBorder(
+                                                      borderSide:
+                                                          const BorderSide(
                                                         color:
-                                                        Color(0x00000000),
+                                                            Color(0x00000000),
                                                         width: 1,
                                                       ),
                                                       borderRadius:
-                                                      BorderRadius.circular(
-                                                          8),
+                                                          BorderRadius.circular(
+                                                              8),
                                                     ),
                                                     errorBorder:
-                                                    OutlineInputBorder(
-                                                      borderSide: const BorderSide(
+                                                        OutlineInputBorder(
+                                                      borderSide:
+                                                          const BorderSide(
                                                         color:
-                                                        Color(0x00000000),
+                                                            Color(0x00000000),
                                                         width: 1,
                                                       ),
                                                       borderRadius:
-                                                      BorderRadius.circular(
-                                                          8),
+                                                          BorderRadius.circular(
+                                                              8),
                                                     ),
                                                     focusedErrorBorder:
-                                                    OutlineInputBorder(
-                                                      borderSide: const BorderSide(
+                                                        OutlineInputBorder(
+                                                      borderSide:
+                                                          const BorderSide(
                                                         color:
-                                                        Color(0x00000000),
+                                                            Color(0x00000000),
                                                         width: 1,
                                                       ),
                                                       borderRadius:
-                                                      BorderRadius.circular(
-                                                          8),
+                                                          BorderRadius.circular(
+                                                              8),
                                                     ),
                                                     filled: true,
-
                                                     contentPadding:
-                                                    const EdgeInsetsDirectional
-                                                        .fromSTEB(
-                                                        20, 24, 20, 24),
+                                                        const EdgeInsetsDirectional
+                                                            .fromSTEB(
+                                                            20, 24, 20, 24),
                                                   ),
-
                                                 ),
                                               ),
                                               Padding(
-                                                padding: const EdgeInsetsDirectional
-                                                    .fromSTEB(0, 12, 0, 0),
+                                                padding:
+                                                    const EdgeInsetsDirectional
+                                                        .fromSTEB(0, 12, 0, 0),
                                                 child: TextFormField(
                                                   decoration: InputDecoration(
                                                     labelText: 'Password',
-
                                                     hintText:
-                                                    'Enter your password...',
-
+                                                        'Enter your password...',
                                                     enabledBorder:
-                                                    OutlineInputBorder(
-                                                      borderSide: const BorderSide(
+                                                        OutlineInputBorder(
+                                                      borderSide:
+                                                          const BorderSide(
                                                         color:
-                                                        Color(0x00000000),
+                                                            Color(0x00000000),
                                                         width: 1,
                                                       ),
                                                       borderRadius:
-                                                      BorderRadius.circular(
-                                                          8),
+                                                          BorderRadius.circular(
+                                                              8),
                                                     ),
                                                     focusedBorder:
-                                                    OutlineInputBorder(
-                                                      borderSide: const BorderSide(
+                                                        OutlineInputBorder(
+                                                      borderSide:
+                                                          const BorderSide(
                                                         color:
-                                                        Color(0x00000000),
+                                                            Color(0x00000000),
                                                         width: 1,
                                                       ),
                                                       borderRadius:
-                                                      BorderRadius.circular(
-                                                          8),
+                                                          BorderRadius.circular(
+                                                              8),
                                                     ),
                                                     errorBorder:
-                                                    OutlineInputBorder(
-                                                      borderSide: const BorderSide(
+                                                        OutlineInputBorder(
+                                                      borderSide:
+                                                          const BorderSide(
                                                         color:
-                                                        Color(0x00000000),
+                                                            Color(0x00000000),
                                                         width: 1,
                                                       ),
                                                       borderRadius:
-                                                      BorderRadius.circular(
-                                                          8),
+                                                          BorderRadius.circular(
+                                                              8),
                                                     ),
                                                     focusedErrorBorder:
-                                                    OutlineInputBorder(
-                                                      borderSide: const BorderSide(
+                                                        OutlineInputBorder(
+                                                      borderSide:
+                                                          const BorderSide(
                                                         color:
-                                                        Color(0x00000000),
+                                                            Color(0x00000000),
                                                         width: 1,
                                                       ),
                                                       borderRadius:
-                                                      BorderRadius.circular(
-                                                          8),
+                                                          BorderRadius.circular(
+                                                              8),
                                                     ),
                                                     filled: true,
-
                                                     contentPadding:
-                                                    const EdgeInsetsDirectional
-                                                        .fromSTEB(
-                                                        20, 24, 20, 24),
+                                                        const EdgeInsetsDirectional
+                                                            .fromSTEB(
+                                                            20, 24, 20, 24),
                                                     suffixIcon: InkWell(
-                                                      onTap: (){},
+                                                      onTap: () {},
                                                       focusNode: FocusNode(
                                                           skipTraversal: true),
                                                       child: const Icon(
                                                         Icons
                                                             .visibility_off_outlined,
                                                         color:
-                                                        Color(0x98FFFFFF),
+                                                            Color(0x98FFFFFF),
                                                         size: 20,
                                                       ),
                                                     ),
                                                   ),
-
                                                 ),
                                               ),
                                               Padding(
-                                                padding: const EdgeInsetsDirectional
-                                                    .fromSTEB(0, 12, 0, 0),
+                                                padding:
+                                                    const EdgeInsetsDirectional
+                                                        .fromSTEB(0, 12, 0, 0),
                                                 child: TextFormField(
                                                   decoration: InputDecoration(
                                                     labelText:
-                                                    'Confirm Password',
-
+                                                        'Confirm Password',
                                                     hintText:
-                                                    'Enter your password...',
-
+                                                        'Enter your password...',
                                                     enabledBorder:
-                                                    OutlineInputBorder(
-                                                      borderSide: const BorderSide(
+                                                        OutlineInputBorder(
+                                                      borderSide:
+                                                          const BorderSide(
                                                         color:
-                                                        Color(0x00000000),
+                                                            Color(0x00000000),
                                                         width: 1,
                                                       ),
                                                       borderRadius:
-                                                      BorderRadius.circular(
-                                                          8),
+                                                          BorderRadius.circular(
+                                                              8),
                                                     ),
                                                     focusedBorder:
-                                                    OutlineInputBorder(
-                                                      borderSide: const BorderSide(
+                                                        OutlineInputBorder(
+                                                      borderSide:
+                                                          const BorderSide(
                                                         color:
-                                                        Color(0x00000000),
+                                                            Color(0x00000000),
                                                         width: 1,
                                                       ),
                                                       borderRadius:
-                                                      BorderRadius.circular(
-                                                          8),
+                                                          BorderRadius.circular(
+                                                              8),
                                                     ),
                                                     errorBorder:
-                                                    OutlineInputBorder(
-                                                      borderSide: const BorderSide(
+                                                        OutlineInputBorder(
+                                                      borderSide:
+                                                          const BorderSide(
                                                         color:
-                                                        Color(0x00000000),
+                                                            Color(0x00000000),
                                                         width: 1,
                                                       ),
                                                       borderRadius:
-                                                      BorderRadius.circular(
-                                                          8),
+                                                          BorderRadius.circular(
+                                                              8),
                                                     ),
                                                     focusedErrorBorder:
-                                                    OutlineInputBorder(
-                                                      borderSide: const BorderSide(
+                                                        OutlineInputBorder(
+                                                      borderSide:
+                                                          const BorderSide(
                                                         color:
-                                                        Color(0x00000000),
+                                                            Color(0x00000000),
                                                         width: 1,
                                                       ),
                                                       borderRadius:
-                                                      BorderRadius.circular(
-                                                          8),
+                                                          BorderRadius.circular(
+                                                              8),
                                                     ),
                                                     filled: true,
-
                                                     contentPadding:
-                                                    const EdgeInsetsDirectional
-                                                        .fromSTEB(
-                                                        20, 24, 20, 24),
+                                                        const EdgeInsetsDirectional
+                                                            .fromSTEB(
+                                                            20, 24, 20, 24),
                                                     suffixIcon: InkWell(
-                                                      onTap: (){},
+                                                      onTap: () {},
                                                       focusNode: FocusNode(
                                                           skipTraversal: true),
                                                       child: const Icon(
                                                         Icons
                                                             .visibility_off_outlined,
                                                         color:
-                                                        Color(0x98FFFFFF),
+                                                            Color(0x98FFFFFF),
                                                         size: 20,
                                                       ),
                                                     ),

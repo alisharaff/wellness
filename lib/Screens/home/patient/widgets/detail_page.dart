@@ -19,7 +19,7 @@ class DetailPage extends StatefulWidget {
 }
 
 class _DetailPageState extends State<DetailPage> {
-  late DoctorModel model;
+  late DoctorModelHome model;
   @override
   void initState() {
     model = widget.model;
@@ -31,16 +31,16 @@ class _DetailPageState extends State<DetailPage> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
         BackButton(color: Theme.of(context).primaryColor),
-        IconButton(
-            icon: Icon(
-              model.isfavourite ? Icons.favorite : Icons.favorite_border,
-              color: model.isfavourite ? Colors.red : LightColor.grey,
-            ),
-            onPressed: () {
-              setState(() {
-                model.isfavourite = !model.isfavourite;
-              });
-            })
+        // IconButton(
+        //     icon: Icon(
+        //       model.isfavourite ? Icons.favorite : Icons.favorite_border,
+        //       color: model.isfavourite ? Colors.red : LightColor.grey,
+        //     ),
+        //     onPressed: () {
+        //       setState(() {
+        //         model.isfavourite = !model.isfavourite;
+        //       });
+        //     })
       ],
     );
   }
@@ -57,7 +57,7 @@ class _DetailPageState extends State<DetailPage> {
         bottom: false,
         child: Stack(
           children: <Widget>[
-            Image.asset(model.image),
+            Image.asset("lib/assets/doctor.png"),
             DraggableScrollableSheet(
               maxChildSize: .8,
               initialChildSize: .6,
@@ -65,24 +65,24 @@ class _DetailPageState extends State<DetailPage> {
               builder: (context, scrollController) {
                 return Container(
                   height: AppTheme.fullHeight(context) * .5,
-                  padding: EdgeInsets.only(
+                  padding: const EdgeInsets.only(
                       left: 19,
                       right: 19,
                       top: 16), //symmetric(horizontal: 19, vertical: 16),
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(30),
                         topRight: Radius.circular(30)),
                     color: Colors.white,
                   ),
                   child: SingleChildScrollView(
-                    physics: BouncingScrollPhysics(),
+                    physics: const BouncingScrollPhysics(),
                     controller: scrollController,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         ListTile(
-                          contentPadding: EdgeInsets.all(0),
+                          contentPadding: const EdgeInsets.all(0),
                           title: Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: <Widget>[
@@ -90,15 +90,15 @@ class _DetailPageState extends State<DetailPage> {
                                 model.name,
                                 style: titleStyle,
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 width: 10,
                               ),
                               Icon(Icons.check_circle,
                                   size: 18,
                                   color: Theme.of(context).primaryColor),
-                              Spacer(),
+                              const Spacer(),
                               RatingStar(
-                                rating: model.rating,
+                                rating: 2,
                               )
                             ],
                           ),
@@ -107,14 +107,14 @@ class _DetailPageState extends State<DetailPage> {
                             style: TextStyles.bodySm.subTitleColor.bold,
                           ),
                         ),
-                        Divider(
+                        const Divider(
                           thickness: .3,
                           color: LightColor.grey,
                         ),
                         Row(
                           children: <Widget>[
                             ProgressWidget(
-                                value: model.goodReviews,
+                                value: 2,
                                 totalValue: 100,
                                 activeColor: LightColor.purpleExtraLight,
                                 backgroundColor:
@@ -122,7 +122,7 @@ class _DetailPageState extends State<DetailPage> {
                                 title: "Good Review",
                                 durationTime: 500),
                             ProgressWidget(
-                                value: model.totalScore,
+                                value: 2,
                                 totalValue: 100,
                                 activeColor: LightColor.purpleLight,
                                 backgroundColor:
@@ -130,7 +130,7 @@ class _DetailPageState extends State<DetailPage> {
                                 title: "Total Score",
                                 durationTime: 300),
                             ProgressWidget(
-                                value: model.satisfaction,
+                                value: 2,
                                 totalValue: 100,
                                 activeColor: LightColor.purple,
                                 backgroundColor:
@@ -139,15 +139,15 @@ class _DetailPageState extends State<DetailPage> {
                                 durationTime: 800),
                           ],
                         ),
-                        Divider(
+                        const Divider(
                           thickness: .3,
                           color: LightColor.grey,
                         ),
                         Text("About", style: titleStyle).vP16,
-                        Text(
-                          model.description,
-                          style: TextStyles.body.subTitleColor,
-                        ),
+                        // Text(
+                        //   model.description,
+                        //   style: TextStyles.body.subTitleColor,
+                        // ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
@@ -157,15 +157,12 @@ class _DetailPageState extends State<DetailPage> {
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(10),
                                   color: LightColor.grey.withAlpha(150)),
-                              child: Icon(
+                              child: const Icon(
                                 Icons.call,
                                 color: Colors.white,
                               ),
-                            ).ripple(
-                              () {},
-                              borderRadius: BorderRadius.circular(10),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 10,
                             ),
                             Container(
@@ -174,15 +171,12 @@ class _DetailPageState extends State<DetailPage> {
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(10),
                                   color: LightColor.grey.withAlpha(150)),
-                              child: Icon(
+                              child: const Icon(
                                 Icons.chat_bubble,
                                 color: Colors.white,
                               ),
-                            ).ripple(
-                              () {},
-                              borderRadius: BorderRadius.circular(10),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 10,
                             ),
                             ElevatedButton(
@@ -197,7 +191,8 @@ class _DetailPageState extends State<DetailPage> {
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) =>
-                                        CreatNewDatePage('CreatNewDatePage'),
+                                        const CreatNewDatePage(
+                                            'CreatNewDatePage'),
                                   ),
                                 );
                               },

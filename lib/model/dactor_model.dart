@@ -74,3 +74,44 @@ class DoctorModel {
         "image": image == null ? null : image,
     };
 }
+
+
+
+class DoctorModelHome {
+    String name;
+    String type;
+ 
+
+    DoctorModelHome({
+        required this.name,
+        required this.type,
+    
+    });
+
+    DoctorModelHome copyWith({
+        required String name,
+        required String type,
+   
+    }) =>
+        DoctorModelHome(
+            name: name ?? this.name,
+            type: type ?? this.type,
+        
+        );
+
+    factory DoctorModelHome.fromRawJson(String str) => DoctorModelHome.fromJson(json.decode(str));
+
+    String toRawJson() => json.encode(toJson());
+
+    factory DoctorModelHome.fromJson(Map<String, dynamic> json) => DoctorModelHome(
+        name: json["name"] == null ? null : json["name"],
+        type: json["type"] == null ? null : json["type"],
+     
+    );
+
+    Map<String, dynamic> toJson() => {
+        "name": name == null ? null : name,
+        "type": type == null ? null : type,
+        
+    };
+}
